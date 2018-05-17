@@ -1,6 +1,8 @@
 import random
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views import View
+from django.views.generic import TemplateView
 
 
 '''def home(request):
@@ -37,24 +39,47 @@ def home(request):
     return render(request, "home.html", context_variables)
 
 
-def restaurants(request):
-
-    '''In this function based biew, all the templates are stored in the templates folder and Django knows where
-    to look for this folder because it was already specified in the base.py from the settings folder.'''
-    num = random.randint(0, 1000000)
-    some_list = [random.randint(0, 1000000), random.randint(0, 1000000), random.randint(0, 1000000), random.randint(0, 1000000)]
-    context_variables = {
-        "html_var": True,
-        "num": num,
-        "some_list": some_list
-    }
-    return render(request, "restaurants.html", context_variables)
-
 def about(request):
     context_variables = {}
     return render(request, "about.html", context_variables)
 
 
-def contact(request):
+'''def contact(request):
     context_variables = {}
-    return render(request, "contact.html", context_variables)
+    return render(request, "contact.html", context_variables)'''
+
+
+class RestaurantsView(TemplateView):
+    #With the template view you do not have to call the render method anymore.
+    template_name = 'restaurants.html'
+
+    def get_context_data(self, *args, **kwargs):
+
+        context = super(RestaurantsView, self).get_context_data(*args, **kwargs)
+        num = random.randint(0, 1000000)
+        some_list = [random.randint(0, 1000000), random.randint(0, 1000000), random.randint(0, 1000000),
+                     random.randint(0, 1000000)]
+        context = {
+            "html_var": True,
+            "num": num,
+            "some_list": some_list
+        }
+
+        '''The variable context defined at the very beginning initializes the template for rendering
+        and the second variable named context sets the dictionary of variables that will be used in 
+        that same template.'''
+
+        return context
+
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+'''class ContactView(View):
+    # Class based view
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, "contact.html", context)'''
+
+class ContactView(TemplateView):
+    #Template based view
+    template_name = 'contact.html'
