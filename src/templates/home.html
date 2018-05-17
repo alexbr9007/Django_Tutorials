@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Main site</h1>
+    <a href='/restaurants/'>Restaurants</a>
+    <p>This is {{html_var}}, a context variable (somthing new!)</p>
+    <p>This is {{num}}, another context variable (somthing new!)</p>
+    <p>
+        {% if html_var %}
+            Random number is {{num}}
+        {% endif %}
+    </p>
+
+    <p>
+        {% for some_item in some_list %}
+            {% if some_item|divisibleby:"2" %}
+                Even number
+            {% endif %}
+
+            {{some_item}} <br />
+        {% endfor %}
+    </p>
+
+{% endblock content %}
