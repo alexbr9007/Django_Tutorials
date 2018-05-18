@@ -1,8 +1,9 @@
 import random
+from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from .models import RestaurantLocations
 
@@ -74,16 +75,28 @@ def about(request):
     return render(request, "contact.html", context_variables)'''
 
 
-def restaurant_listview(request):
-    template_name = 'restaurants.html'
-    queryset = RestaurantLocations.objects.all()
+class restaurant_listview(ListView):
+    '''Function list view'''
+    template_name = 'restaurants_list.html'
+
+    def get_queryset(self):
+        slug = self.kwargs.get("slug")
+        if slug:
+            queryset = RestaurantLocations.objects.filter(
+            Q(category__iexact = slug) | Q(category__icontains=slug))
+        else:
+            queryset = RestaurantLocations.objects.all()
+        return queryset
+
+    '''queryset = RestaurantLocations.objects.all()
     context = {
         "object_list": queryset
     }
-    return render(request, template_name, context)
+    return render(request, template_name, context)'''
+
 
 class RestaurantsView(TemplateView):
-    #With the template view you do not have to call the render method anymore.
+    #With the template view you do not have to call the render method anymore. Really?
     template_name = 'restaurants.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -104,6 +117,20 @@ class RestaurantsView(TemplateView):
 
         return context
 
+class SearchRestaurantListView(ListView):
+    '''This view only displays the results once you type in restaurants/asian or restaurants/mexican'''
+    template_name = 'restaurants_list.html'
+
+    def get_queryset(self):
+        slug = self.kwargs.get("slug")
+        if slug:
+            queryset = RestaurantLocations.objects.filter(
+            Q(category__iexact = slug) | Q(category__icontains=slug))
+        else:
+            queryset = RestaurantLocations.objects.all()
+        return queryset
+
+
 class AboutView(TemplateView):
     template_name = 'about.html'
 
@@ -116,11 +143,3 @@ class AboutView(TemplateView):
 class ContactView(TemplateView):
     #Template based view
     template_name = 'contact.html'
-
-def restaurant_listview(request):
-    template_name = ''
-    context = {
-        "object_list":[]
-
-    }
-    return render(request, template_name, context )
