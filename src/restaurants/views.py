@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import RestaurantLocations
 from .forms import RestaurantsCreateForm, RestaurantLocationsCreateForm
@@ -66,6 +68,7 @@ class HomeView(TemplateView):
         return context
 
 
+@login_required()
 def restaurant_createview(request):
     form = RestaurantLocationsCreateForm(request.POST or None)
     errors = None
@@ -176,7 +179,15 @@ class ContactView(TemplateView):
     #Template based view
     template_name = 'contact.html'
 
-class RestaurantsCreateView(CreateView):
+
+class RestaurantsCreateView(LoginRequiredMixin, CreateView):
     form_class    = RestaurantLocationsCreateForm
+    login_url = '/login/'
     template_name = 'form.html'
     success_url   = "/restaurants/"
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.owner = self.request.user
+        #instance.save()
+        return super(RestaurantsCreateView, self).form_valid(form)

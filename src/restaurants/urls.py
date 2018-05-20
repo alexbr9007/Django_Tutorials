@@ -1,12 +1,14 @@
 from django.conf.urls import url
 #from django.views.generic import TemplateView
+from django.contrib.auth.views import LoginView
 from . import views
 
 urlpatterns = [
     # ======================================== Home ============================================ #
 
     url(r'^$', views.HomeView.as_view()),
-    url(r'restaurants/$', views.RestaurantListview.as_view()),
+    url(r'login/$',LoginView.as_view()),
+    url(r'restaurants/$', views.RestaurantListview.as_view(), name='login'), #name is like a shortcut to find something between the RestaurantListview
     #url(r'restaurants/(?P<slug>\w+)/$', views.RestaurantListview.as_view()),
     #url(r'restaurants/(?P<pk>\w+)/$', views.RestaurantsDetailView.as_view()),
     url(r'create/$',views.RestaurantsCreateView.as_view()),

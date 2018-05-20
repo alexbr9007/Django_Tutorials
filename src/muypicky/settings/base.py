@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import django.contrib.auth
+django.contrib.auth.LOGIN_URL = '/'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -37,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'restaurants'
+    'restaurants',
+
 ]
 
 MIDDLEWARE = [
@@ -51,11 +54,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'muypicky.urls'
+LOGIN_URL = '/login/'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], #/your_path_to_your_templates
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], #/the_path_to_your_templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
