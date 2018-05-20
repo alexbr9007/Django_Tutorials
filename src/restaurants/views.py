@@ -1,11 +1,12 @@
 import random
 from django.db.models import Q
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 
 from .models import RestaurantLocations
+from .forms import RestaurantsCreateForm, RestaurantLocationsCreateForm
 
 
 '''def home(request):
@@ -65,6 +66,20 @@ class HomeView(TemplateView):
         return context
 
 
+def restaurant_createview(request):
+    form = RestaurantLocationsCreateForm(request.POST or None)
+    errors = None
+    if form.is_valid():
+        form.save()
+        #obj = RestaurantLocations.objects.create(name = form.cleaned_data.get('title'),location = form.cleaned_data.get('location'),category = form.cleaned_data.get('category'))
+        return HttpResponseRedirect("restaurants")
+    if form.errors:
+        errors = form.errors
+    template_name = "form.html"
+    context = {"form": form, "errors": errors}
+    return render(request, template_name, context)
+
+
 def about(request):
     context_variables = {}
     return render(request, "about.html", context_variables)
@@ -75,7 +90,7 @@ def about(request):
     return render(request, "contact.html", context_variables)'''
 
 
-class restaurant_listview(ListView):
+class RestaurantListview(ListView):
     '''Function list view'''
     template_name = 'restaurants_list.html'
 
@@ -130,6 +145,23 @@ class SearchRestaurantListView(ListView):
             queryset = RestaurantLocations.objects.all()
         return queryset
 
+class RestaurantsDetailView(DetailView):
+    queryset = RestaurantLocations.objects.all()
+    template_name = 'restaurants_detail.html'
+
+    '''def get_context_data(self, *args, **kwargs):
+        print(self)
+        context = super(RestaurantsDetailView, self).get_context_data(*args, **kwargs)
+        print(context)
+
+        return context
+
+    def get_object(self, queryset=None):
+        rest_id = self.kwargs.get('slug')
+        obj = get_object_or_404(RestaurantLocations, id=rest_id) #pk = rest_id
+        return obj'''
+
+#def restaurant_detailView(request, slug):
 
 class AboutView(TemplateView):
     template_name = 'about.html'
@@ -143,3 +175,8 @@ class AboutView(TemplateView):
 class ContactView(TemplateView):
     #Template based view
     template_name = 'contact.html'
+
+class RestaurantsCreateView(CreateView):
+    form_class    = RestaurantLocationsCreateForm
+    template_name = 'form.html'
+    success_url   = "/restaurants/"
