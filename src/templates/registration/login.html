@@ -15,8 +15,8 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}"> <!--login is the name that is used in the urls.py file to
- identify this section-->
+<form method="post" action="{% url 'login' %}"> <!--login is a shortcut or a name used for not calling the class based
+ views by its complete name and this name is used in the urls.py file to identify this section-->
 {% csrf_token %}
 <table>
 <tr>
@@ -34,6 +34,8 @@
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
-
+<!--<p><a href="{ url 'password_reset' }">Lost password</a></p>
+avoid using reverse urls in comments because Django reads them
+-->
 
 {% endblock %}

@@ -32,13 +32,6 @@ def rl_pre_save_receiver(sender, instance, *args, **kwargs):
         instance.slug = unique_slug_generator(instance)
         instance.save()
 
-'''def rl_post_save_receiver(sender, instance, created, *args, **kwargs):
-    print("saved")
-    print(instance.timestamp)
-    if not instance.slug:
-        instance.slug = unique_slug_generator(instance)
-        instance.save()'''
-
 pre_save.connect(rl_pre_save_receiver, sender=RestaurantLocations )
 
 #post_save.connect(rl_post_save_receiver, sender=RestaurantLocations )

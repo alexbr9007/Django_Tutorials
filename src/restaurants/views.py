@@ -2,7 +2,6 @@ import random
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -67,15 +66,18 @@ class HomeView(TemplateView):
 
         return context
 
-
-@login_required()
+@login_required(login_url='/login/')
 def restaurant_createview(request):
     form = RestaurantLocationsCreateForm(request.POST or None)
     errors = None
     if form.is_valid():
-        form.save()
-        #obj = RestaurantLocations.objects.create(name = form.cleaned_data.get('title'),location = form.cleaned_data.get('location'),category = form.cleaned_data.get('category'))
-        return HttpResponseRedirect("restaurants")
+        if request.user.is_authenticated():
+            instance = form.save(commit=False)
+            instance.owner = request.user
+            instance.save()
+            return HttpResponseRedirect("restaurants")
+        else:
+            return HttpResponseRedirect("/login/")
     if form.errors:
         errors = form.errors
     template_name = "form.html"
@@ -86,11 +88,6 @@ def restaurant_createview(request):
 def about(request):
     context_variables = {}
     return render(request, "about.html", context_variables)
-
-
-'''def contact(request):
-    context_variables = {}
-    return render(request, "contact.html", context_variables)'''
 
 
 class RestaurantListview(ListView):
@@ -183,11 +180,14 @@ class ContactView(TemplateView):
 class RestaurantsCreateView(LoginRequiredMixin, CreateView):
     form_class    = RestaurantLocationsCreateForm
     login_url = '/login/'
+    #template_name = '/accounts/templates/accounts/login.html'
     template_name = 'form.html'
     success_url   = "/restaurants/"
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        instance.owner = self.request.user
+        instance.owner = self.request.user #Anonymous user
         #instance.save()
         return super(RestaurantsCreateView, self).form_valid(form)
+
+
