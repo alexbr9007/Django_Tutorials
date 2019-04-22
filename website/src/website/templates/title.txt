@@ -1,0 +1,1 @@
+This value was rendered with Django.
