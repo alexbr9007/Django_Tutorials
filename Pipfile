@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 django = "*"
 djangorestframework = "*"
+requests = {extras = ["security"],version = "*"}
+pyopenssl = "*"
 
 [requires]
 python_version = "3.6"
