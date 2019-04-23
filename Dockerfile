@@ -9,7 +9,7 @@ RUN pipenv lock
 RUN pipenv install --ignore-pipfile
 
 
-RUN mkdir/app
+RUN mkdir /app
 WORKDIR /app
 COPY ./app /app
 
