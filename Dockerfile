@@ -13,7 +13,8 @@ RUN pipenv lock
 RUN pipenv install --ignore-pipfile
 
 # Error [SSL:TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:661)
-# Use the following command in terminal export COMPOSE_TLS_VERSION=TLSv1_2
+# Use the following command in terminal
+# export COMPOSE_TLS_VERSION=TLSv1_2
 
 RUN mkdir /app
 WORKDIR /app
