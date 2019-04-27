@@ -8,4 +8,10 @@ services:
             - "8000:8000"
         volumes:
             - ./app:/app
-        command: sh -c "python manage.py runserver 0.0.0.0:8000"
+        command:
+            # sh -c "django-admin.py startproject app"
+            sh -c "python manage.py runserver 0.0.0.0:8000"
+            # start the django-admin once the image has been created
+            # use the command from below in the terminal
+            # docker-compose run app to initialize this app once you have executed
+            # docker-compose run app sh -c "django-admin.py startproject app ."
