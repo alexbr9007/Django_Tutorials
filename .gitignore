@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Distribution and packages
 
 venv/
@@ -17,3 +18,11 @@ website/src/website/website/__pycache__/*
 
 src_muypicky/restaurants/__pycache__/*
 /src_muypicky/muypicky/__pycache__/*
+
+__pycache__
+*.pyc
+*.DS_Store
+
+=======
+
+>>>>>>> remotes/OldRepo/master
