@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Distribution and packages
 
 venv/
@@ -23,6 +22,4 @@ __pycache__
 *.pyc
 *.DS_Store
 
-=======
 
->>>>>>> remotes/OldRepo/master
