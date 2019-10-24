@@ -1,4 +1,5 @@
 FROM python:3.6-alpine
+
 MAINTAINER Alejandro Bautista R.
 
 ENV PYTHONUNBUFFERED 1

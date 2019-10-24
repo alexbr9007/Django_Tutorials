@@ -14,9 +14,9 @@ website/src/website/blog_app/__pycache__/*
 website/src/website/searches/__pycache__/*
 website/src/website/searches/migrations/__pycache__/*
 website/src/website/website/__pycache__/*
-
 src_muypicky/restaurants/__pycache__/*
-/src_muypicky/muypicky/__pycache__/*
+src_muypicky/muypicky/__pycache__/*
+
 
 __pycache__
 *.pyc
