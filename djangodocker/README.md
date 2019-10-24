@@ -111,13 +111,9 @@ djangodocker
 
     In case you cannot do it with the command from above use the following: 
 
-    bug that is in `src.djangodocker.urls` from the `settings.py`.
-
     `heroku run bash -a djangodocker`
     `cd src`
     `python3 manage.py makemigrations`
-
-possible bug, if you cannot make migrations then you need to modify the settings file and edit `src.djangodocker.urls` to `djangodocker.urls`
 
 ### Additional notes
 
