@@ -1,0 +1,10 @@
+db.sqlite3
+.idea/
+
+
+*/__init__.py
+*/*/__init__.py
+*/__pycache__.py
+
+*/migrations
+*/env
