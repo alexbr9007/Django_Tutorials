@@ -108,6 +108,7 @@ djangodocker
 
     `heroku run python3 manage.py migrate -a djangodocker`
     `heroku run python3 manage.py makemigrations -a djangodocker`
+    `heroku run python3 manage.py create superuser`
 
     In case you cannot do it with the command from above use the following: 
 
