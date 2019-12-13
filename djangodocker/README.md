@@ -43,21 +43,27 @@
         `DATABASES['default'].update(db_from_env)`
         `DATABASES['default']['CONN_MAX_AGE'] = 500`
 
+### 6. Modify the `settings.py` to include the following line for rendering templates.
 
-### 6. Run the following command at the same level of your manage.py file
+    `TEMPLATES = [ ....`
+        `'DIRS': [os.path.join(BASE_DIR, 'templates')],`
+     `..]`
+
+### 7. Install the pipenv dependencies with the command pipenv install
+
+### 8. Run the following command at the same level of your manage.py file (you must have your virtual environment activated to run this command with the gunicorn library installed):
 
     `gunicorn djangodocker.wsgi:application --bind 0.0.0.0:8888`
 
+## 9. There should be 2 Dockerfiles, one for heroku and the other one for local testing.
 
-## 7. There should be 2 Dockerfiles, one for heroku and the other one for local testing. 
-
-    `Dockerfile-local` - sudo docker build -t abautista/django-docker -f Dockerfile-local .
-
+    `Dockerfile.dev` - sudo docker build -t abautista/django-docker -f Dockerfile.dev .
 
     `Dockerfile` - sudo docker build -t abautista/django-docker-heroku -f Dockerfile .
 
+For testing you image locally, you need to execute the command `sudo docker run -p 3000:8888 <image_id>`.
 
-### 8. Once you have verified the image is working locally, we need to see how is the file structure of the project and based on that, we can add the new routes for the main app and modules.  
+### 10. Once you have verified the image is working locally, we need to see how is the file structure of the project and based on that, we can add the new routes for the main app and modules.
                    
 djangodocker 
     | Dockerfile
@@ -81,29 +87,23 @@ djangodocker
                             | migrations --------| __init__.py
 
 
-### 8. Modify the `settings.py` to include the following line for rendering templates.
+### 11. Create the docker image that will be released in Heroku. Run the command at the same level of the Dockerfile.
 
-    `TEMPLATES = [ ....`
-        `'DIRS': [os.path.join(BASE_DIR, 'templates')],`
-     `..]`
+    `sudo docker build -t abautista/django-docker-heroku .`
 
-### 9. Create the docker image that will be released in Heroku. Run the command at the same level of the Dockerfile.
-
-    `sudo docker build -t abautista/django-docker-heroku -f Dockerfile .`
-
-### 10. Push the image into Heroku
+### 12. Push the image into Heroku (djangodocker is the name of your app)
 
     `sudo heroku container:push web -a djangodocker`
 
-### 11. Release the image in heroku
+### 13. Release the image in heroku
 
     `sudo heroku container:release web -a djangodocker`
 
-### 12. Open the heroku app to verify that it is working.
+### 14. Open the heroku app to verify that it is working.
 
     `heroku open -a djangodocker`
 
-### 13. Make the migrations in the Docker container after you have changed the configuration.
+### 15. Make the migrations in the Docker container after you have changed the configuration.
 
 
     `heroku run python3 manage.py migrate -a djangodocker`
